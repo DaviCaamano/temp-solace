@@ -57,18 +57,9 @@ export class NoteDatabaseService extends ComponentWithLogging {
     }
   }
 
-  async create({
-    userId,
-    title,
-    content,
-    parentId = null,
-    next = null,
-  }: CreateNoteDto): Promise<Note> {
+  async create({ userId, title, content, parentId = null, next = null }: CreateNoteDto): Promise<Note> {
     if (!userId) {
-      this.report(
-        'No user id provided for create note',
-        HttpStatus.BAD_REQUEST,
-      );
+      this.report('No user id provided for create note', HttpStatus.BAD_REQUEST);
     }
 
     const query: Prisma.NoteCreateInput = {
@@ -109,10 +100,7 @@ export class NoteDatabaseService extends ComponentWithLogging {
           },
         });
       } catch (err: any) {
-        this.report(
-          `Failed to retrieve final root node for user: ${userId} (used for note creation) (1)`,
-          err,
-        );
+        this.report(`Failed to retrieve final root node for user: ${userId} (used for note creation) (1)`, err);
       }
       if (lastNode) {
         query.Prev = {
@@ -130,26 +118,12 @@ export class NoteDatabaseService extends ComponentWithLogging {
     }
   }
 
-  update({
-    id,
-    userId,
-    title,
-    content,
-    head,
-    next,
-    status,
-  }: UpdateNoteDto): Promise<Note> {
+  update({ id, userId, title, content, head, next, status }: UpdateNoteDto): Promise<Note> {
     if (!id) {
-      this.report(
-        'No note id provided for update note',
-        HttpStatus.BAD_REQUEST,
-      );
+      this.report('No note id provided for update note', HttpStatus.BAD_REQUEST);
     }
     if (!userId) {
-      this.report(
-        'No user id provided for update note',
-        HttpStatus.BAD_REQUEST,
-      );
+      this.report('No user id provided for update note', HttpStatus.BAD_REQUEST);
     }
     const query: NoteUpdateArgs = {
       where: {
@@ -192,11 +166,7 @@ export class NoteDatabaseService extends ComponentWithLogging {
    * @param descendant - string: id of descendant node
    * @param ancestor - string: id of potential ancestor
    */
-  async isAncestor(
-    userId: string,
-    descendant: string,
-    ancestor: string,
-  ): Promise<boolean> {
+  async isAncestor(userId: string, descendant: string, ancestor: string): Promise<boolean> {
     if (!userId) {
       this.report('No user id provided for list notes', HttpStatus.BAD_REQUEST);
     }
@@ -236,11 +206,7 @@ export class NoteDatabaseService extends ComponentWithLogging {
    *  Find Note [A]: where A.next === note
    *    If A: A.next = note.next
    */
-  async detachNote(
-    note: Note,
-    userId: string,
-    markDeleted: boolean = false,
-  ): Promise<DetachedNote> {
+  async detachNote(note: Note, userId: string, markDeleted: boolean = false): Promise<DetachedNote> {
     const originalParent = note.parentId;
     let sibling: Note | undefined;
 
@@ -254,16 +220,15 @@ export class NoteDatabaseService extends ComponentWithLogging {
 
     if (sibling?.id) {
       try {
-        const newSiblingNextPointer: Prisma.NoteUpdateOneWithoutPrevNestedInput =
-          note.next
-            ? {
-                connect: {
-                  id: note.next,
-                },
-              }
-            : {
-                disconnect: true,
-              };
+        const newSiblingNextPointer: Prisma.NoteUpdateOneWithoutPrevNestedInput = note.next
+          ? {
+              connect: {
+                id: note.next,
+              },
+            }
+          : {
+              disconnect: true,
+            };
 
         sibling = await this.db.note.update({
           where: { id: sibling.id, userId },
@@ -310,23 +275,14 @@ export class NoteDatabaseService extends ComponentWithLogging {
   }
 
   /** Undo operation done by detachNote function in this service */
-  async detachNote_Revert({
-    noteId,
-    originalParent,
-    originalNext,
-    sibling,
-    userId,
-  }: DetachedNote) {
+  async detachNote_Revert({ noteId, originalParent, originalNext, sibling, userId }: DetachedNote) {
     try {
       await this.db.note.update({
         where: { userId, id: sibling.id },
         data: { next: originalNext },
       });
     } catch (err: any) {
-      this.error(
-        "Failed to revert target's previous sibling's \"next\" property. Consolidating User's Note Tree",
-        err,
-      );
+      this.error("Failed to revert target's previous sibling's \"next\" property. Consolidating User's Note Tree", err);
       await this.consolidateTree(userId);
     }
     try {
@@ -340,10 +296,7 @@ export class NoteDatabaseService extends ComponentWithLogging {
         });
       }
     } catch (err: any) {
-      this.error(
-        "Failed to revert target's previous sibling's \"next\" property. Consolidating User's Note Tree",
-        err,
-      );
+      this.error("Failed to revert target's previous sibling's \"next\" property. Consolidating User's Note Tree", err);
       await this.consolidateTree(userId);
     }
   }
@@ -395,12 +348,7 @@ export class NoteDatabaseService extends ComponentWithLogging {
     const updateQueries: Prisma.NoteUpdateArgs[] = [];
     const noteList = await this.list(userId);
     for (const { title, next: nextTitle, parentId: parentTitle } of villains) {
-      const relations = getRelationsForVillains(
-        noteList,
-        title,
-        parentTitle,
-        nextTitle,
-      );
+      const relations = getRelationsForVillains(noteList, title, parentTitle, nextTitle);
 
       if (relations) {
         const { id, next, parentId } = relations;

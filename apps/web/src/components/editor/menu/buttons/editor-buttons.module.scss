@@ -1,0 +1,28 @@
+@import '../../../../styles/tailwind/colors.js';
+
+.noHighlight {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+  user-select: none;
+}
+
+.saveButton {
+  @apply text-[2rem] text-mug transition-all;
+  cursor: pointer !important;
+
+  &:not(.stale) {
+    @apply text-mug-disabled-light cursor-default;
+  }
+
+  &:not(stale).disabled {
+    @apply text-brown cursor-default;
+  }
+}
+
+.notebookButton {
+  @apply text-[2rem] cursor-pointer text-mug transition-all;
+  width: 26px;
+  height: 26px;
+  color: $mug;
+}

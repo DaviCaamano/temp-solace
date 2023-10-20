@@ -1,5 +1,6 @@
 module.exports = {
-  extends: ["next", "prettier"],
+  plugins: ['@typescript-eslint/eslint-plugin', 'eslint-plugin-prettier'],
+  extends: ['next', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
   settings: {
     next: {
       rootDir: ["apps/*/", "packages/*/"],
@@ -8,5 +9,23 @@ module.exports = {
   rules: {
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
+    quotes: ["warn", "single", "avoid-escape"],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "no-img-element": 0,
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "prefer-const": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/prefer-namespace-keyword": "off",
+    "@typescript-eslint/no-namespace": "off",
+    "import/no-unresolved": "off",
+    "security/detect-object-injection": "off",
+    "react/no-unknown-property": ["off", { ignore: ["JSX"] }],
+    "prettier/prettier": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
   },
 };

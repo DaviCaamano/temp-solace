@@ -39,16 +39,9 @@ export class NoteMoveService extends ComponentWithLogging {
    *          The Note will be moved to the last spot on highest depth (aka: root nodes) in the user's heiarchy
    * @param userId - string: user which owns the note tree
    */
-  async move({
-    id,
-    position,
-    targetId,
-    userId,
-  }: MoveNoteDto): Promise<Note | undefined> {
+  async move({ id, position, targetId, userId }: MoveNoteDto): Promise<Note | undefined> {
     if (await this.dbService.isAncestor(userId, targetId, id)) {
-      return this.report(
-        'Cannot move Note: ancestors cannot target their own descendants',
-      );
+      return this.report('Cannot move Note: ancestors cannot target their own descendants');
     }
     const note: Note | undefined = await this.dbService.get(id, userId);
 
@@ -80,10 +73,7 @@ export class NoteMoveService extends ComponentWithLogging {
       }
     } catch (err: any) {
       if (sibling) {
-        this.error(
-          'Move Operation Failed, reverting note\'s previous sibling\'s "next" property',
-          err,
-        );
+        this.error('Move Operation Failed, reverting note\'s previous sibling\'s "next" property', err);
         await this.dbService.detachNote_Revert(detachedNote);
       } else {
         this.error('Move Operation Failed', err);
@@ -102,15 +92,10 @@ export class NoteMoveService extends ComponentWithLogging {
     try {
       target = await this.dbService.get(targetId, userId);
     } catch (err: any) {
-      this.report(
-        'Failed to find note being moved to (move ahead operation) (1)',
-        err,
-      );
+      this.report('Failed to find note being moved to (move ahead operation) (1)', err);
     }
     if (!target) {
-      this.report(
-        'Failed to find note being moved to (move ahead operation) (2)',
-      );
+      this.report('Failed to find note being moved to (move ahead operation) (2)');
     }
 
     /** Update the 'next' property of the sibling which currently points at the target note
@@ -124,10 +109,7 @@ export class NoteMoveService extends ComponentWithLogging {
         where: { userId, next: targetId },
       });
     } catch (err: any) {
-      this.report(
-        "Failed to update next property of target's previous sibling.",
-        err,
-      );
+      this.report("Failed to update next property of target's previous sibling.", err);
     }
 
     if (sibling) {
@@ -143,10 +125,7 @@ export class NoteMoveService extends ComponentWithLogging {
           },
         });
       } catch (err: any) {
-        this.report(
-          "Failed to update next property of target's previous sibling.",
-          err,
-        );
+        this.report("Failed to update next property of target's previous sibling.", err);
       }
     }
 
@@ -201,11 +180,7 @@ export class NoteMoveService extends ComponentWithLogging {
    * @param targetId - Note: Parent Note who is having a note inserted as its new first child
    * @param userId - string: user which owns the note tree
    */
-  async makeChildOf(
-    note: Note,
-    targetId: string | undefined | null,
-    userId: string,
-  ) {
+  async makeChildOf(note: Note, targetId: string | undefined | null, userId: string) {
     const sibling = await this.findFirstChild(targetId, userId);
 
     const updateData: Prisma.NoteUpdateInput = {
@@ -264,10 +239,7 @@ export class NoteMoveService extends ComponentWithLogging {
     try {
       return await this.db.note.update(query);
     } catch (err: any) {
-      this.report(
-        `Failed to update note while moving to last position - Note[${note.id}]`,
-        err,
-      );
+      this.report(`Failed to update note while moving to last position - Note[${note.id}]`, err);
     }
   }
 
@@ -280,11 +252,7 @@ export class NoteMoveService extends ComponentWithLogging {
    * @param userId - string: user which owns the note tree
    * @param attempt - Attempt again in case a tree must be consolidated.
    */
-  async findFirstChild(
-    parentId: string | undefined | null,
-    userId: string,
-    attempt: number = 0,
-  ) {
+  async findFirstChild(parentId: string | undefined | null, userId: string, attempt: number = 0) {
     let children: Note[] | undefined;
     if (parentId) {
       try {
@@ -319,9 +287,7 @@ export class NoteMoveService extends ComponentWithLogging {
       }
     }
     /** Should not execute if child list is properly structured */
-    this.error(
-      "Unable to find first child, list of children not strongly linked. Consolidating User's Note Tree",
-    );
+    this.error("Unable to find first child, list of children not strongly linked. Consolidating User's Note Tree");
     await this.dbService.consolidateTree(userId);
     return this.findFirstChild(parentId, userId, attempt + 1);
   }
@@ -361,12 +327,9 @@ export class NoteMoveService extends ComponentWithLogging {
   }
 
   redundantMoveCheck(note: Note, targetId: string, position: MoveNotePosition) {
-    const alreadyChildOfTarget =
-      position === MoveNotePosition.childOf && note.parentId === targetId;
-    const alreadyAheadOf =
-      position === MoveNotePosition.aheadOf && note.next === targetId;
-    const alreadyLastNote =
-      position === MoveNotePosition.lastChildOf && !note.next && !note.parentId;
+    const alreadyChildOfTarget = position === MoveNotePosition.childOf && note.parentId === targetId;
+    const alreadyAheadOf = position === MoveNotePosition.aheadOf && note.next === targetId;
+    const alreadyLastNote = position === MoveNotePosition.lastChildOf && !note.next && !note.parentId;
 
     return alreadyChildOfTarget || alreadyAheadOf || alreadyLastNote;
   }

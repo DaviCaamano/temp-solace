@@ -1,0 +1,7 @@
+.container {
+  @apply relative w-full h-full bg-chalkboard min-w-[100vw] min-h-screen flex flex-col;
+}
+
+.framer {
+  @apply h-[16rem] overflow-hidden;
+}

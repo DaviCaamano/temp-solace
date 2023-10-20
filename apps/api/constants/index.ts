@@ -1,1 +1,1 @@
-export * from './villains'
+export * from './villains';

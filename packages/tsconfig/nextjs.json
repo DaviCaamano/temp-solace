@@ -3,11 +3,12 @@
   "display": "Next.js",
   "extends": "./base.json",
   "compilerOptions": {
+    "allowJs": true,
+    "strictPropertyInitialization": false,
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
@@ -15,8 +16,8 @@
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "include": ["src", "constants", "test", "../../packages/shared/types/*.d.ts", "jest.config.ts", "jest.setup.ts", "next-env.d.ts"],
-  "exclude": ["node_modules"]
+    "jsx": "preserve",
+    "experimentalDecorators": true,
+    "outDir": "dist"
+  }
 }

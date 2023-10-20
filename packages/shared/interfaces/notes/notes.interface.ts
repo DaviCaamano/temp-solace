@@ -110,7 +110,9 @@ export interface DragHandlers {
   row: DragRowHandlers;
   drag: DragWrapperHandlers;
 }
-export type DragZoneHandler = (moveType: MoveNotePosition) => { onMouseEnter: () => void };
+export type DragZoneHandler = (moveType: MoveNotePosition) => {
+  onMouseEnter: () => void;
+};
 export interface DragRowHandlers {
   onMouseEnter: () => void;
   onMouseLeave: () => void;

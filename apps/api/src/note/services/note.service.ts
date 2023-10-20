@@ -1,11 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ComponentWithLogging } from '~utils/logging';
 import { CreateNoteDto, MoveNoteDto, UpdateNoteDto } from '../dto/note.dto';
-import {
-  ListNotesResponse,
-  NoteResponse,
-  DeleteNoteResponse,
-} from '#interfaces/notes';
+import { ListNotesResponse, NoteResponse, DeleteNoteResponse } from '#interfaces/notes';
 import { NoteDatabaseService } from './note-database.service';
 import { NoteMoveService } from './note-move.service';
 import { NoteDeleteService } from '~note/services/note-delete.sevice';
@@ -49,11 +45,7 @@ export class NoteService extends ComponentWithLogging {
     note: await this.moveService.move(moveNoteData),
   });
 
-  delete = async (
-    id: string,
-    userId: string,
-    deleteChildren: boolean,
-  ): Promise<DeleteNoteResponse> =>
+  delete = async (id: string, userId: string, deleteChildren: boolean): Promise<DeleteNoteResponse> =>
     await this.deleteService.delete(id, userId, deleteChildren);
 
   reset = async () => {

@@ -1,0 +1,162 @@
+@import '../../styles/tailwind/colors.js';
+
+.header {
+  @apply relative flex border-b-[2px] h-12 border-latte;
+  background:
+          /* On "top" */
+    repeating-linear-gradient(45deg, transparent, transparent 1px, $tan 1px, $tan 2px),
+    /* on "bottom" */ linear-gradient(to bottom, $latte, $tan);
+}
+
+.headerDragIcon {
+  @apply relative text-mug;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  stroke: $latte;
+  stroke-opacity: 0.5;
+  stroke-width: 0.125rem;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+
+.headerBack {
+  @apply relative text-chalkboard ml-4;
+}
+
+.headerBackBackground {
+  @apply absolute  h-[32px] w-[32px];
+  transform: rotate(45deg) translate(-75%, 5%);
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+}
+
+.headerBackIconContainer {
+  @apply relative;
+  top: 24px;
+  z-index: 1;
+}
+
+.headerBackIconFramer {
+  @apply absolute bg-latte overflow-hidden cursor-pointer;
+  transform: rotate(45deg);
+}
+
+.headerBackIcon {
+  position: relative;
+  transform: rotate(-45deg);
+  top: -1px;
+  left: 2px;
+}
+
+.noteSettingsButton {
+  @apply absolute cursor-pointer w-[1.625rem] h-[1.625rem];
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.noteSettingsButtonIcon {
+  stroke: $latte;
+  stroke-opacity: 1;
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  opacity: 0.8;
+  user-select: none;
+}
+
+.noteBook {
+  @apply flex flex-col-reverse justify-end
+    lg:w-[40rem]
+    w-full lg:min-h-[31.25rem]
+    sm:mx-auto
+    pb-[3.125rem]
+    relative overflow-hidden
+    bg-chalkboard
+    rounded-2xl border-latte border-[2px];
+}
+
+.noteRow {
+  @apply text-[1.5rem] w-full h-[3.125rem] text-latte leading-8 flex justify-start items-start flex-col
+  transition-transform;
+  position: relative !important;
+}
+
+.childRow {
+  @apply h-8 text-[24px] text-latte pl-4 leading-8 justify-start items-center flex-row w-full;
+}
+
+.noteRow.dragged {
+  position: relative !important;
+}
+
+.noteRowParent {
+  @apply relative h-full flex flex-col-reverse w-full pr-2 rounded-l-md justify-center items-center;
+  -webkit-transition: background-color 200ms linear;
+  -ms-transition: background-color 200ms linear;
+  transition: background-color 200ms linear;
+
+  &:hover {
+    .noteRowButtons {
+      display: flex;
+    }
+
+    .dragIndicator {
+      @apply hidden md:block;
+      &:not(.hideDragButton) {
+        pointer-events: all;
+        cursor: pointer;
+        opacity: 1;
+      }
+      &.hideDragButton {
+        opacity: 0;
+        cursor: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  &:not(hover) {
+    .noteRowButtons {
+      display: none;
+    }
+
+    .dragIndicator {
+      pointer-events: none;
+      opacity: 0;
+      cursor: none;
+    }
+  }
+}
+
+.dragged {
+  z-index: 50;
+}
+.noteRowButton {
+  @apply flex justify-center items-center rounded-3xl text-latte text-[1.5rem] leading-[1.5rem] h-6 w-6;
+}
+
+.focusRow {
+  @apply relative w-full h-[9.25rem] border-y-[2px] border-tan overflow-hidden opacity-50 flex flex-col-reverse;
+}
+
+.focusRowTitleBox {
+  @apply relative flex justify-center items-center
+  h-[4rem] w-full text-latte font-semibold text-center cursor-pointer;
+}
+
+.focusRowTitle {
+  @apply w-full overflow-hidden overflow-ellipsis whitespace-nowrap mx-16
+  text-[1.25rem] xs:text-[1.5rem] sm:text-[1.75rem] md:text-[2rem];
+}
+.preview {
+  @apply flex flex-col h-[5.25rem] md:flex-row justify-center items-center;
+}
+
+.previewEditor {
+  @apply w-full h-full flex flex-col relative;
+  background: linear-gradient(0deg, transparent, transparent 50%, transparent 75%, $mug 100%);
+}

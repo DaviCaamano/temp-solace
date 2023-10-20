@@ -1,0 +1,114 @@
+@import '../../../styles/tailwind/colors.js';
+
+$nestedUl: 'ul > li';
+$TwoNestedUl: '#{$nestedUl} > #{$nestedUl}';
+$FourNestedUl: '#{$TwoNestedUl} > #{$TwoNestedUl}';
+$EightNestedUl: '#{$FourNestedUl} > #{$FourNestedUl}';
+$TwelveNestedUl: '#{$EightNestedUl} > #{$FourNestedUl}';
+
+.editor {
+  @apply w-full h-full bg-mug pl-8 pt-4 pr-4 pb-4 scrollbar-thin rounded-b-2xl;
+  line-height: 1.5rem;
+  font-size: 1.25rem;
+  min-height: 100%;
+
+  /** Block Quote Classes */
+  blockquote {
+    @apply flex flex-row border-mug border-l-[2px] ml-4 pr-4 text-latte-lighter font-medium;
+  }
+  blockquote:before {
+    content: open-quote;
+  }
+  blockquote:after {
+    content: close-quote;
+  }
+  blockquote:before,
+  blockquote:after {
+    display: inline;
+    vertical-align: bottom;
+    font-size: 1rem;
+    top: 0.2rem;
+    position: relative;
+    color: $pink;
+  }
+  blockquote:before {
+    @apply ml-2 mr-1;
+  }
+  blockquote:after {
+    @apply ml-1;
+  }
+
+  ul {
+    @apply pl-2;
+  }
+
+  /** List Classes */
+  ul,
+  li {
+    @apply pl-4;
+  }
+
+  ol {
+    @apply ml-0 pl-9;
+  }
+
+  ol > li {
+    @apply list-decimal mr-0 pl-0;
+  }
+
+  #{$nestedUl} > p {
+    @apply pl-[2px];
+  }
+
+  /** Support 20 levels of unordered list alternating bullets (ODD NUMBERS = DISK BULLET) */
+  #{$nestedUl} > p,                                                                     //one
+  #{$TwoNestedUl} > #{$nestedUl} > p,                                                   //three
+  #{$FourNestedUl} > #{$nestedUl} > p,                                                  //five
+  #{$FourNestedUl} > #{$TwoNestedUl} > #{$nestedUl} > p,                                //seven
+  #{$EightNestedUl} > #{$nestedUl} > p,                                                 //nine
+  #{$EightNestedUl} > #{$TwoNestedUl} > #{$nestedUl} > p,                               //eleven
+  #{$TwelveNestedUl} > #{$nestedUl} > p,                                                //thirteen
+  #{$TwelveNestedUl} > #{$TwoNestedUl} > #{$nestedUl} > p,                              //fifteen
+  #{$TwelveNestedUl} > #{$FourNestedUl} > #{$nestedUl} > p,                             //seventeen
+  #{$TwelveNestedUl} > #{$FourNestedUl} > #{$TwoNestedUl} > #{$nestedUl} > p            /** nineteen */ {
+    @apply list-item;
+    list-style-type: disc;
+  }
+
+  /** Support 20 levels of unordered list alternating bullets (EVEN NUMBERS = SQUARE BULLET) */
+  #{$TwoNestedUl} > p,                                                                  //two
+  #{$FourNestedUl} > p,                                                                 //four
+  #{$FourNestedUl} > #{$TwoNestedUl} > p,                                               //six
+  #{$EightNestedUl} > p,                                                                //eight
+  #{$EightNestedUl} > #{$TwoNestedUl} > p,                                              //ten
+  #{$TwelveNestedUl} > p,                                                               //twelve
+  #{$TwelveNestedUl} > #{$TwoNestedUl} > p,                                             //fourteen
+  #{$TwelveNestedUl} > #{$FourNestedUl} > p,                                            //sixteen
+  #{$TwelveNestedUl} > #{$FourNestedUl} > #{$TwoNestedUl} > p,                          //eighteen
+  #{$TwelveNestedUl} > #{$EightNestedUl} > p                                            /** twenty */ {
+    @apply list-item;
+    list-style-type: square;
+  }
+}
+
+.codeContainer {
+  @apply w-full bg-mug text-latte rounded-lg border-mug-light border block
+  ml-4 pl-8 leading-8 relative py-8 overflow-x-auto scroll-auto;
+}
+
+.codeContainer > code {
+  @apply font-thin break-all w-full max-w-full pr-8;
+}
+
+.header {
+  @apply w-full bg-latte flex flex-row relative rounded-t-2xl;
+  vertical-align: top;
+  background:
+          /* On "top" */
+    repeating-linear-gradient(45deg, transparent, transparent 1px, #ccc 1px, #ccc 2px),
+    /* on "bottom" */ linear-gradient(to bottom, #eee, #999);
+}
+
+.title {
+  @apply w-full min-h-[2.8125rem] pl-8 pr-[5rem] py-2 text-[1.5rem] font-semibold text-coffee;
+}

@@ -25,22 +25,12 @@ export class NoteDeleteService extends ComponentWithLogging {
     });
   }
 
-  async delete(
-    id: string,
-    userId: string,
-    deleteChildren: boolean = false,
-  ): Promise<DeleteNoteResponse> {
+  async delete(id: string, userId: string, deleteChildren: boolean = false): Promise<DeleteNoteResponse> {
     if (!id) {
-      this.report(
-        'No note id provided for delete note',
-        HttpStatus.BAD_REQUEST,
-      );
+      this.report('No note id provided for delete note', HttpStatus.BAD_REQUEST);
     }
     if (!userId) {
-      this.report(
-        'No user id provided for delete note',
-        HttpStatus.BAD_REQUEST,
-      );
+      this.report('No user id provided for delete note', HttpStatus.BAD_REQUEST);
     }
 
     let noteList: Note | undefined;
@@ -82,9 +72,7 @@ export class NoteDeleteService extends ComponentWithLogging {
           });
         } catch (err: any) {
           await this.dbService.detachNote_Revert(detachedNote);
-          this.report(
-            `Failed to delete children of: ${target.id}, reverting detatch`,
-          );
+          this.report(`Failed to delete children of: ${target.id}, reverting detatch`);
         }
       } else {
         await this.elevateChildren(target, userId, noteList);
@@ -99,10 +87,7 @@ export class NoteDeleteService extends ComponentWithLogging {
    * @param id - string:
    * @param noteList
    */
-  async getDescendants(
-    id: string,
-    noteList: Note | undefined,
-  ): Promise<[Note | undefined, Note[]]> {
+  async getDescendants(id: string, noteList: Note | undefined): Promise<[Note | undefined, Note[]]> {
     let target: Note | undefined;
     const children: Note[] = [];
     let childrenLength = 0;
@@ -177,10 +162,7 @@ export class NoteDeleteService extends ComponentWithLogging {
             },
           });
         } catch (err: any) {
-          this.report(
-            "Failed to connect parent's last child to first child of deleted note",
-            err,
-          );
+          this.report("Failed to connect parent's last child to first child of deleted note", err);
         }
       }
 
@@ -199,10 +181,7 @@ export class NoteDeleteService extends ComponentWithLogging {
             data: { parentId: note.id },
           });
         } catch (err: any) {
-          this.error(
-            "Failed to revert deletions evlated children. Consolidating User's Note Tree",
-            err,
-          );
+          this.error("Failed to revert deletions evlated children. Consolidating User's Note Tree", err);
           await this.dbService.consolidateTree(userId);
         }
         this.report('Failed to update Children of deleted note', err);
