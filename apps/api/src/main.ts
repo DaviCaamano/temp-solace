@@ -1,23 +1,16 @@
+/* istanbul ignore file */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config({ path: '../../.env' });
+
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
+import { AppModule } from '~app.module';
+const PORT = process.env.BACKEND_PORT || 5002;
 declare const module: any;
 async function bootstrap() {
   const logger = new Logger('EntryPoint');
   const app = await NestFactory.create(AppModule);
-
-  const config = new DocumentBuilder()
-    .setTitle('Leaves Tracker')
-    .setDescription('Api Docs for leaves tracker')
-    .setVersion('1.0')
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
-
-  const PORT = 5002;
+  app.setGlobalPrefix('api');
 
   await app.listen(PORT);
 

@@ -17,5 +17,12 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "../../apps/api/src/**/*.ts",
+    "../../apps/api/constants/**/*.ts",
+    "../../apps/api/test/**/*.ts",
+    "../../apps/api/utils/**/*.ts",
+    "../shared/types/global.d.ts"
+  ]
 }
