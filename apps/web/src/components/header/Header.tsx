@@ -8,7 +8,7 @@ import { Tooltip } from '@components/shared';
 import { useState } from 'react';
 
 export const Header = () => {
-  const { isLoading, isLoggedOut, error } = useLogin();
+  const { isLoading, isLoggedOut } = useLogin();
   const [solaceTooltip, setSolaceTooltip] = useState<boolean>(false);
   return (
     <div id={'header'} className={'w-full h-20 flex flex-row items-center justify-between pt-4 px-12'}>
@@ -32,16 +32,11 @@ export const Header = () => {
       </Tooltip>
       <div className={'flex flex-col h-full'}>
         <UserMenu loggedIn={!isLoading && !isLoggedOut} />
-        <ErrorMessage error={error} />
         <LoginLink show={!isLoading && isLoggedOut} />
       </div>
     </div>
   );
 };
-
-const ErrorMessage = ({ error }: { error?: string }) => (
-  <span className={`absolute right-5 fade_7 ${!error && 'fadeOut pointer-events-none'}`}>{error}</span>
-);
 
 const SolaceTooltip = () => (
   <div>

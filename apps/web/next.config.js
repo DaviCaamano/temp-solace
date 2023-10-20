@@ -1,8 +1,8 @@
 require('dotenv').config({ path: '../../.env' });
 
 const jsonImporter = require('node-sass-json-importer');
-const backendPort = process.env.BACKENDPORT || 5002;
-const backendHost = process.env.BACKENDHOST || 'http://localhost';
+const backendPort = process.env.BACKEND_PORT || 5002;
+const backendHost = process.env.BACKEND_HOST || 'http://localhost';
 
 module.exports = {
     reactStrictMode: true,

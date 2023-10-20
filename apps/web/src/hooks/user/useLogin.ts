@@ -6,13 +6,12 @@ import { User } from '#interfaces/user/user.interface';
 interface useLoginResponse {
   isLoading: boolean;
   isLoggedOut: boolean;
-  error: string | undefined;
   user: User | undefined;
 }
 export const useLogin = (processLogin: boolean = false): useLoginResponse => {
-  const { user: authZeroUser, error: authZeroError, isLoading: authZeroIsLoading } = useAuthZeroUser();
+  const { user: authZeroUser, isLoading: authZeroIsLoading } = useAuthZeroUser();
 
-  const [login, { data: user, error, isLoading, isSuccess }] = useLoginMutation?.({
+  const [login, { data: user, isLoading, isSuccess }] = useLoginMutation?.({
     fixedCacheKey: 'login',
   });
 
@@ -35,7 +34,6 @@ export const useLogin = (processLogin: boolean = false): useLoginResponse => {
     isLoading: authZeroIsLoading || isLoading || !!(!user && authZeroUser),
     isLoggedOut: !authZeroUser && !authZeroIsLoading && !user && !isLoading,
     user: isSuccess ? (user as User) : undefined,
-    error: (authZeroError?.message || authZeroError || (error as Error)?.message || error) as string | undefined,
   };
 };
 
