@@ -10,7 +10,7 @@ import { PersistenceModule } from './persistence/persistence.module';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '../../.env',
-      validationSchema: validationSchemaForEnv,
+      // validationSchema: validationSchemaForEnv,
     }),
     PersistenceModule,
   ],
