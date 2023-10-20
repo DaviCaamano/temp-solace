@@ -1,9 +1,7 @@
-import { Button } from "shared";
-
 export function LoginScreen() {
   return (
     <div>
-      Login Screen <Button />
+      Login Screen <button className="text-lg bg-red-500">boo</button>
     </div>
   );
 }
