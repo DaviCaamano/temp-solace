@@ -3,7 +3,7 @@
 import { RefObject, useRef, useState } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { PopupMenu, PopUpMenuItem } from '@components/shared/menu';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface UserMenuProps {
   loggedIn: boolean;

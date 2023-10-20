@@ -7,7 +7,7 @@ import { Tooltip } from '@components/shared';
 import { CSSProperties, useCallback } from 'react';
 import { useSaveKeybinding } from '../../menu/buttons/hooks';
 import styles from '../../menu/buttons/editor-buttons.module.scss';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { LocalStorage } from '@interface/cookie';
 import add from 'date-fns/add';
 
@@ -25,7 +25,7 @@ export const SaveButton = () => {
     if (!user?.id) {
       localStorage.setItem(LocalStorage.editorContent, editor.content);
       localStorage.setItem(LocalStorage.expiration, add(new Date(), { days: 7 }).toString());
-      router.push('/api/auth/login').then();
+      router.push('/api/auth/login');
     } else if (editor.id) {
       save({
         id: editor.id,

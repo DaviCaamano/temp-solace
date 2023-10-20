@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { LocalStorage } from '@interface/cookie';
 import add from 'date-fns/add';
 import { useEditor } from '@hooks/context/useEditor';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 const MINIMUM_CONTENT_WORTH_SAVING = 2;
 export const LoginLink = ({ show }: { show: boolean }) => {
   const router = useRouter();
@@ -15,7 +15,7 @@ export const LoginLink = ({ show }: { show: boolean }) => {
       localStorage.setItem(LocalStorage.editorContent, editor.content);
       localStorage.setItem(LocalStorage.expiration, add(new Date(), { days: 7 }).toString());
     }
-    router.push('/api/auth/login').then();
+    router.push('/api/auth/login');
   }, [editor.content, router]);
 
   return (

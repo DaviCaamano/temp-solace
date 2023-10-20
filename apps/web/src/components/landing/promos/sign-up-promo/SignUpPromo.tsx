@@ -1,7 +1,7 @@
 'use client';
 
 import { Modal } from '@components/shared';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { colors } from '@styles/tailwind';
 import { hexOpacity } from '@utils/color';
@@ -82,7 +82,7 @@ export const SignUpPromo = ({ open, setOpen }: SignUpPromo) => {
                 id={'sign-up-promo-button'}
                 className={styles.signupButton}
                 style={{ borderColor: hexOpacity(colors.latte, 0.5) }}
-                onClick={() => router.push('/api/auth/login').then()}
+                onClick={() => router.push('/api/auth/login')}
               >
                 Sign Up
               </button>

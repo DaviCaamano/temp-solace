@@ -6,7 +6,7 @@ import { CSSProperties, useCallback } from 'react';
 import { colors } from '@styles/tailwind';
 import { LocalStorage } from '@interface/cookie';
 import add from 'date-fns/add';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { EditorViewMode } from '@interface/editor';
 import DisabledByDefaultIcon from '@mui/icons-material/DisabledByDefault';
 
@@ -22,7 +22,7 @@ export const NotebookCancelButton = () => {
     if (!user?.id) {
       localStorage.setItem(LocalStorage.editorContent, editor.content);
       localStorage.setItem(LocalStorage.expiration, add(new Date(), { days: 7 }).toString());
-      router.push('/api/auth/login').then();
+      router.push('/api/auth/login');
     } else if (editor.id) {
       reset();
       setEditor({ viewMode: EditorViewMode.notebook });
