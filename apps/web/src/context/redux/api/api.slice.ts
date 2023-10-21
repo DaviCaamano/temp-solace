@@ -21,9 +21,7 @@ type ApiSlice = Api<
 const baseUrl = process.env.BASE_URL;
 console.log(
   '~~~~~~~~~~~',
-  fetchBaseQuery({
-    baseUrl: baseUrl + '/api/',
-  }),
+  baseUrl + '/api/',
 );
 export const apiSlice: ApiSlice = createApi({
   reducerPath: 'api',
