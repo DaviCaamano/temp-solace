@@ -18,6 +18,7 @@ type ApiSlice = Api<
   typeof coreModuleName | typeof reactHooksModuleName
 >;
 
+
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 console.log(
   '~~~~~~~~~~~',
