@@ -15,7 +15,7 @@ export const LoginLink = ({ show }: { show: boolean }) => {
       localStorage.setItem(LocalStorage.editorContent, editor.content);
       localStorage.setItem(LocalStorage.expiration, add(new Date(), { days: 7 }).toString());
     }
-    router.push('/api/auth/login');
+    router.push('https://temp-solace-web.vercel.app/api/auth/login');
   }, [editor.content, router]);
 
   return (
