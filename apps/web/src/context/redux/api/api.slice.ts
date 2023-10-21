@@ -17,7 +17,14 @@ type ApiSlice = Api<
   'Note' | 'User',
   typeof coreModuleName | typeof reactHooksModuleName
 >;
+
 const baseUrl = process.env.BASE_URL;
+console.log(
+  '~~~~~~~~~~~',
+  fetchBaseQuery({
+    baseUrl: baseUrl + '/api/',
+  }),
+);
 export const apiSlice: ApiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
