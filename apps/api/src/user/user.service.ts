@@ -31,7 +31,14 @@ export class UserService extends ComponentWithLogging {
     });
 
     if (!userRecord) {
+      console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
       userRecord = await this.dbService.upsert(user);
+      console.log(
+        `
+      
+      userRecord:`,
+        userRecord,
+      );
       await this.noteDbService.addDefaultNotes(userRecord.id);
     }
 
