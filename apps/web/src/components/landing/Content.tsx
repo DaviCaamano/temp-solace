@@ -9,6 +9,9 @@ import { SignUpPromo } from '@components/landing/promos';
 import { Promo } from '#interfaces/promo';
 
 export const Content = () => {
+
+  console.log('AUTH0_BASE_URL', process.env.AUTH0_BASE_URL)
+
   const { closePromo, promos, viewMode } = useLoginNavigation();
   const signUpPromoOpen = promos.includes(Promo.signup);
   return (
