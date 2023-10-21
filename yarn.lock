@@ -82,7 +82,7 @@
     ora "5.4.1"
     rxjs "7.8.1"
 
-"@auth0/nextjs-auth0@^3.1.0":
+"@auth0/nextjs-auth0@^3.2.0":
   version "3.2.0"
   resolved "https://registry.npmjs.org/@auth0/nextjs-auth0/-/nextjs-auth0-3.2.0.tgz#1a6c29ac7d7cc74df9c7ee33a4ff854d09d7c8de"
   integrity sha512-8vdoqEF+RfAAdG9O2r8QbRs95LraDYhDGlfTzQdGg5CYTBGUWO34EZOB9bZr0SgqnqaO9Qa4lgcrffsYPcvywg==
